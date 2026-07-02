@@ -3,196 +3,445 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saber | Soumyajit Dutta</title>
+<title>FILE #VW-0050 — SABER / Soumyajit Dutta</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
+
+:root{
+--bg:#0a0906;
+--bg-panel:#131108;
+--bg-panel-2:#1a1710;
+--paper:#e9e2cd;
+--paper-dim:#a89f87;
+--amber:#ffb300;
+--amber-dim:#8a5f00;
+--red:#c1272d;
+--line:#3a3324;
+--mono-display:'JetBrains Mono',monospace;
+--mono-body:'IBM Plex Mono',monospace;
+}
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Consolas,monospace;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
-background:#050505;
-color:white;
+background:var(--bg);
+color:var(--paper);
+font-family:var(--mono-body);
 overflow-x:hidden;
+position:relative;
 }
 
+/* paper grain + scanline atmosphere */
 body::before{
 content:"";
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at 20% 20%,rgba(0,255,150,.1),transparent 30%),
-radial-gradient(circle at 80% 30%,rgba(0,255,255,.08),transparent 30%),
-radial-gradient(circle at 50% 80%,rgba(0,255,150,.08),transparent 30%);
-animation:move 10s linear infinite alternate;
-z-index:-1;
+inset:0;
+pointer-events:none;
+z-index:2;
+background:repeating-linear-gradient(
+0deg,
+rgba(255,255,255,0.018) 0px,
+rgba(255,255,255,0.018) 1px,
+transparent 1px,
+transparent 3px
+);
+mix-blend-mode:overlay;
 }
 
-@keyframes move{
-0%{transform:translateY(-20px);}
-100%{transform:translateY(20px);}
+body::after{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:1;
+background:radial-gradient(ellipse at 50% 0%,rgba(255,179,0,.06),transparent 55%),
+radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.6),transparent 60%);
 }
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:40px;
-}
+/* ============ ENTRY / ACCESS SCREEN ============ */
 
-h1{
-font-size:55px;
-color:#00ff99;
-}
-
-.typing{
-font-size:24px;
-margin-top:10px;
-white-space:nowrap;
-overflow:hidden;
-border-right:3px solid #00ff99;
-width:27ch;
-animation:typing 4s steps(27),blink .6s infinite alternate;
-}
-
-@keyframes typing{
-from{width:0;}
-}
-
-@keyframes blink{
-50%{border-color:transparent;}
-}
-
-.card{
-margin-top:30px;
-padding:25px;
-background:#101010;
-border:1px solid #00ff99;
-border-radius:15px;
-box-shadow:0 0 15px rgba(0,255,100,.2);
-}
-
-.card h2{
-color:#00ff99;
-margin-bottom:15px;
-}
-
-a{
-color:#00ffee;
-text-decoration:none;
-}
-
-a:hover{
-color:#00ff99;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-top:20px;
-}
-
-.linkbox{
-padding:20px;
-background:#0b0b0b;
-border:1px solid #333;
-border-radius:10px;
-transition:.3s;
-}
-
-.linkbox:hover{
-transform:translateY(-5px);
-border-color:#00ff99;
-box-shadow:0 0 20px rgba(0,255,100,.3);
-}
-
-button{
-margin-top:20px;
-padding:15px 25px;
-background:#00ff99;
-color:black;
-border:none;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-font-size:17px;
-}
-
-button:hover{
-background:#00dd88;
-}
-
-footer{
-text-align:center;
-margin:50px;
-opacity:.7;
-}
-
-ul{
-padding-left:20px;
-line-height:1.8;
-}
-
-/* Entry overlay — most browsers block audio with sound until the user
-   interacts with the page, so we use a click-to-enter screen to both
-   satisfy that requirement and give a nice "enter site" feel. */
 #entry-overlay{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#050505;
+inset:0;
+background:var(--bg);
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 z-index:999;
 text-align:center;
-gap:20px;
+gap:18px;
+padding:20px;
 }
 
-#entry-overlay h2{
-color:#00ff99;
-font-size:32px;
-letter-spacing:2px;
+#entry-overlay .stamp-ring{
+width:86px;
+height:86px;
+border:2px solid var(--amber);
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:var(--mono-display);
+font-size:11px;
+color:var(--amber);
+letter-spacing:1px;
+transform:rotate(-8deg);
+box-shadow:0 0 25px rgba(255,179,0,.25);
 }
 
-#entry-overlay p{
-color:#888;
-font-size:14px;
+#entry-overlay h1{
+font-family:var(--mono-display);
+font-weight:800;
+font-size:clamp(28px,5vw,42px);
+letter-spacing:4px;
+color:var(--paper);
+}
+
+#entry-overlay .sub{
+font-size:12px;
+letter-spacing:3px;
+color:var(--amber-dim);
+text-transform:uppercase;
+}
+
+#entry-log{
+font-size:12px;
+color:var(--paper-dim);
+min-height:18px;
+letter-spacing:1px;
 }
 
 #enter-btn{
-padding:18px 40px;
-font-size:18px;
+margin-top:10px;
+padding:16px 36px;
+background:transparent;
+border:1px solid var(--amber);
+color:var(--amber);
+font-family:var(--mono-display);
+font-weight:700;
+letter-spacing:3px;
+font-size:14px;
+cursor:pointer;
+transition:.25s;
+}
+
+#enter-btn:hover{
+background:var(--amber);
+color:#0a0906;
+box-shadow:0 0 30px rgba(255,179,0,.35);
 }
 
 #mute-toggle{
 position:fixed;
-top:20px;
-right:20px;
+top:18px;
+right:18px;
 z-index:998;
-background:#101010;
-border:1px solid #00ff99;
-color:#00ff99;
-padding:10px 15px;
-border-radius:10px;
+background:var(--bg-panel);
+border:1px solid var(--line);
+color:var(--amber);
+padding:9px 14px;
+border-radius:2px;
 cursor:pointer;
-font-size:14px;
+font-family:var(--mono-display);
+font-size:11px;
+letter-spacing:1px;
 display:none;
 }
 
 #mute-toggle:hover{
-background:#00ff99;
-color:black;
+border-color:var(--amber);
+}
+
+/* ============ LAYOUT ============ */
+
+.container{
+max-width:900px;
+margin:auto;
+padding:56px 28px 40px;
+position:relative;
+z-index:3;
+}
+
+/* classified stamp watermark */
+.watermark{
+position:absolute;
+top:40px;
+right:0px;
+font-family:var(--mono-display);
+font-weight:800;
+font-size:13px;
+letter-spacing:4px;
+color:var(--red);
+border:2px solid var(--red);
+padding:6px 12px;
+transform:rotate(8deg);
+opacity:.75;
+white-space:nowrap;
+}
+
+.case-meta{
+display:flex;
+flex-wrap:wrap;
+gap:6px 24px;
+font-size:11px;
+letter-spacing:1.5px;
+color:var(--paper-dim);
+text-transform:uppercase;
+margin-bottom:22px;
+}
+
+.case-meta span b{
+color:var(--amber);
+font-weight:600;
+}
+
+h1.name{
+font-family:var(--mono-display);
+font-weight:800;
+font-size:clamp(36px,7vw,58px);
+letter-spacing:2px;
+line-height:1.05;
+color:var(--paper);
+}
+
+h1.name .alias{
+color:var(--amber);
+}
+
+.typing{
+font-family:var(--mono-body);
+font-size:16px;
+margin-top:14px;
+white-space:nowrap;
+overflow:hidden;
+border-right:2px solid var(--amber);
+width:44ch;
+max-width:100%;
+color:var(--paper-dim);
+letter-spacing:1px;
+animation:typing 3.2s steps(44),blink .7s infinite step-end;
+}
+
+@keyframes typing{ from{width:0;} }
+@keyframes blink{ 50%{border-color:transparent;} }
+
+hr.tear{
+border:none;
+border-top:1px dashed var(--line);
+margin:34px 0;
+}
+
+/* ============ FILE SECTIONS ============ */
+
+.file{
+margin-top:26px;
+background:var(--bg-panel);
+border:1px solid var(--line);
+position:relative;
+}
+
+.file-tab{
+position:absolute;
+top:-13px;
+left:22px;
+background:var(--bg);
+border:1px solid var(--line);
+border-bottom:none;
+padding:4px 12px;
+font-family:var(--mono-display);
+font-size:11px;
+letter-spacing:2px;
+color:var(--amber-dim);
+}
+
+.file-body{
+padding:30px 26px 26px;
+}
+
+.file h2{
+font-family:var(--mono-display);
+font-weight:700;
+font-size:19px;
+letter-spacing:1.5px;
+color:var(--amber);
+margin-bottom:16px;
+text-transform:uppercase;
+}
+
+.file p{
+line-height:1.85;
+color:var(--paper);
+font-size:14.5px;
+}
+
+/* redacted reveal-on-hover */
+.redact{
+background:var(--paper);
+color:transparent;
+padding:0 6px;
+border-radius:2px;
+cursor:help;
+transition:.2s;
+user-select:none;
+}
+
+.redact:hover{
+background:transparent;
+color:var(--amber);
+outline:1px solid var(--amber-dim);
+}
+
+/* achievements as file entries */
+.entries{
+list-style:none;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.entries li{
+display:grid;
+grid-template-columns:64px 1fr;
+gap:16px;
+align-items:baseline;
+border-bottom:1px solid var(--line);
+padding-bottom:12px;
+font-size:14.5px;
+}
+
+.entries li:last-child{
+border-bottom:none;
+padding-bottom:0;
+}
+
+.entries li .tag{
+font-family:var(--mono-display);
+font-size:11px;
+color:var(--amber-dim);
+letter-spacing:1px;
+}
+
+.entries li b{
+color:var(--amber);
+}
+
+/* case counter block */
+.counter-row{
+display:grid;
+grid-template-columns:auto 1fr;
+gap:24px;
+align-items:center;
+margin-bottom:22px;
+}
+
+.counter-num{
+font-family:var(--mono-display);
+font-weight:800;
+font-size:64px;
+color:var(--amber);
+line-height:1;
+}
+
+.counter-label{
+font-size:11px;
+letter-spacing:2px;
+color:var(--paper-dim);
+text-transform:uppercase;
+line-height:1.6;
+}
+
+.case-tags{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.case-tags span{
+font-family:var(--mono-display);
+font-size:11px;
+letter-spacing:1px;
+color:var(--red);
+border:1px solid var(--red);
+padding:5px 10px;
+text-transform:uppercase;
+opacity:.85;
+}
+
+/* contact grid */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:14px;
+}
+
+.linkbox{
+padding:16px 18px;
+background:var(--bg-panel-2);
+border:1px solid var(--line);
+transition:.25s;
+}
+
+.linkbox:hover{
+border-color:var(--amber);
+transform:translateX(3px);
+}
+
+.linkbox .k{
+font-family:var(--mono-display);
+font-size:10px;
+letter-spacing:2px;
+color:var(--paper-dim);
+text-transform:uppercase;
+display:block;
+margin-bottom:6px;
+}
+
+.linkbox a{
+color:var(--amber);
+text-decoration:none;
+font-size:14px;
+}
+
+.linkbox a:hover{
+text-decoration:underline;
+}
+
+footer{
+text-align:center;
+margin:60px 0 30px;
+font-family:var(--mono-display);
+font-size:11px;
+letter-spacing:3px;
+color:var(--paper-dim);
+text-transform:uppercase;
+}
+
+footer .end-stamp{
+display:inline-block;
+margin-top:10px;
+border:1px solid var(--red);
+color:var(--red);
+padding:5px 14px;
+transform:rotate(-3deg);
+}
+
+@media (max-width:640px){
+.watermark{ font-size:10px; padding:4px 8px; top:16px;}
+.counter-num{ font-size:46px; }
+.entries li{ grid-template-columns:52px 1fr; }
 }
 
 </style>
@@ -200,124 +449,140 @@ color:black;
 </head>
 <body>
 
-<!-- Entry screen: clicking this starts the site AND the music -->
+<!-- ============ ENTRY / TERMINAL ACCESS SCREEN ============ -->
 <div id="entry-overlay">
-<h1 style="font-size:40px;">Saber</h1>
-<h2>ENTER THE SITE</h2>
-<p>Click below to continue (turns on sound)</p>
-<button id="enter-btn">🔓 Enter</button>
+<div class="stamp-ring">VOID<br>WLKRS</div>
+<h1>FILE #VW-0050</h1>
+<div class="sub">Clearance required to view record</div>
+<div id="entry-log">standing by...</div>
+<button id="enter-btn">▸ AUTHENTICATE &amp; OPEN FILE</button>
 </div>
 
-<!-- Background music, add your file as audio.mp3 next to this HTML file -->
+<!-- Background audio — drop your file next to this HTML as audio.mp3 -->
 <audio id="bg-audio" src="audio.mp3" loop preload="auto"></audio>
-
-<button id="mute-toggle">🔊 Mute</button>
+<button id="mute-toggle">◼ MUTE</button>
 
 <div class="container">
 
-<h1>Saber</h1>
+<div class="watermark">CLASSIFIED</div>
 
-<div class="typing">
-Ethical Hacker | CTF Player | Researcher
+<div class="case-meta">
+<span>CASE&nbsp;NO. <b>VW-0050</b></span>
+<span>STATUS <b>ACTIVE</b></span>
+<span>REGION <b>IN&nbsp;/&nbsp;INTL</b></span>
+<span>CLEARANCE <b>DIRECTOR</b></span>
 </div>
 
-<div class="card">
+<h1 class="name">SABER <span class="alias">// SOUMYAJIT DUTTA</span></h1>
 
+<div class="typing">Ethical Hacker · CTF Player · Cyber Crime Investigator_</div>
+
+<hr class="tear">
+
+<div class="file">
+<div class="file-tab">FILE-01 · SUBJECT PROFILE</div>
+<div class="file-body">
 <h2>About Me</h2>
-
 <p>
-
-Hello! I'm <b>Saber</b>, also known as <b>Soumyajit Dutta</b>.
-
+I'm <b style="color:var(--amber)">Soumyajit "Saber" Dutta</b> — an
+<span class="redact" title="Ethical Hacker">Ethical Hacker</span>
+working across <span class="redact" title="IoT Security">IoT Security</span>,
+<span class="redact" title="Cryptography">Cryptography</span>, and currently
+deep in <b>OSINT</b> (Open Source Intelligence) research.
 <br><br>
-
-I am an <span style="color:#00ff99;">Ethical Hacker</span> with interests in
-
-IoT Security,
-
-Cryptography,
-
-and currently researching
-
-<b>OSINT (Open Source Intelligence)</b>.
-
+Outside of CTFs, I operate as a
+<b style="color:var(--amber)">Private Cyber Crime Investigator</b>,
+having worked <b>20+ cases</b> across national and international jurisdictions —
+covering cyberbullying, murder, suicide, and more.
 <br><br>
-
-I enjoy solving security challenges, learning new attack vectors, and building tools that improve security.
-
+I like breaking things to understand them, chasing digital footprints
+that others miss, and building tools that make the internet a little
+harder to abuse.
 </p>
-
+</div>
 </div>
 
-<div class="card">
+<div class="file">
+<div class="file-tab">FILE-02 · CASE LOG</div>
+<div class="file-body">
+<h2>Investigations</h2>
+<div class="counter-row">
+<div class="counter-num">20+</div>
+<div class="counter-label">Cases handled<br>National &amp; International</div>
+</div>
+<div class="case-tags">
+<span>Cyberbullying</span>
+<span>Murder</span>
+<span>Suicide</span>
+<span>Digital Forensics</span>
+<span>OSINT Tracing</span>
+</div>
+</div>
+</div>
 
+<div class="file">
+<div class="file-tab">FILE-03 · OPERATIONAL RECORD</div>
+<div class="file-body">
 <h2>Achievements</h2>
-
-<ul>
-
-<li>Professional CTF Player</li>
-
-<li>Member of <b>VOID_Walkers</b></li>
-
-<li>🌍 World Rank: <b>50</b></li>
-
-<li>🇮🇳 India Rank: <b>3</b></li>
-
-<li>Director of <a href="https://www.voidwalkers.xyz" target="_blank">VOID_Walkers</a></li>
-
+<ul class="entries">
+<li><span class="tag">ROLE</span><span>Professional CTF Player</span></li>
+<li><span class="tag">TEAM</span><span>Member of <b>VOID_Walkers</b></span></li>
+<li><span class="tag">RANK</span><span>🌍 World Rank <b>#50</b></span></li>
+<li><span class="tag">RANK</span><span>🇮🇳 India Rank <b>#3</b></span></li>
+<li><span class="tag">LEAD</span><span>Director of <a href="https://www.voidwalkers.xyz" target="_blank" style="color:var(--amber)">VOID_Walkers</a></span></li>
 </ul>
-
+</div>
 </div>
 
-<div class="card">
-
-<h2>Socials</h2>
-
+<div class="file">
+<div class="file-tab">FILE-04 · CONTACT PROTOCOL</div>
+<div class="file-body">
+<h2>Reach Me</h2>
 <div class="grid">
 
 <div class="linkbox">
-<h3>Discord</h3>
+<span class="k">Discord</span>
 <a href="#">@_iamsaber</a>
 </div>
 
 <div class="linkbox">
-<h3>LinkedIn</h3>
-<a target="_blank" href="https://www.linkedin.com/in/soumyajit-dutta-saber/">Visit</a>
+<span class="k">LinkedIn</span>
+<a target="_blank" href="https://www.linkedin.com/in/soumyajit-dutta-saber/">Visit profile</a>
 </div>
 
 <div class="linkbox">
-<h3>GitHub (Main)</h3>
+<span class="k">GitHub (Main)</span>
 <a target="_blank" href="https://github.com/Soumyajit-Datta-Real">Profile</a>
 </div>
 
 <div class="linkbox">
-<h3>GitHub (Security)</h3>
+<span class="k">GitHub (Security)</span>
 <a target="_blank" href="https://github.com/BO-Saber">Profile</a>
 </div>
 
 <div class="linkbox">
-<h3>Instagram (Private)</h3>
+<span class="k">Instagram (Private)</span>
 <a target="_blank" href="https://www.instagram.com/saber_goes_pvt/">Open</a>
 </div>
 
 <div class="linkbox">
-<h3>Instagram (Public)</h3>
+<span class="k">Instagram (Public)</span>
 <a target="_blank" href="https://www.instagram.com/iam.s.oumyajit/">Open</a>
 </div>
 
 <div class="linkbox">
-<h3>Call/WhatsApp</h3>
+<span class="k">Call / WhatsApp</span>
 <a href="https://wa.me/919163709777">9163709777</a>
 </div>
 
 </div>
-
+</div>
 </div>
 
 <footer>
-
-Made with ❤️ by Saber
-
+End of file — thanks for reading
+<br>
+<span class="end-stamp">CASE CLOSED</span>
 </footer>
 
 </div>
@@ -328,12 +593,20 @@ const overlay = document.getElementById('entry-overlay');
 const enterBtn = document.getElementById('enter-btn');
 const audio = document.getElementById('bg-audio');
 const muteToggle = document.getElementById('mute-toggle');
+const log = document.getElementById('entry-log');
+
+const lines = ['verifying clearance...','decrypting file...','access granted.'];
+let i = 0;
+setInterval(() => {
+log.textContent = lines[i % lines.length];
+i++;
+}, 1100);
 
 enterBtn.addEventListener('click', () => {
 
 audio.play().catch(() => {
-// If autoplay is still blocked for some reason, it will just
-// start once the user interacts with the mute button instead.
+// autoplay may still be blocked once — the mute button lets the
+// visitor start it manually if that happens
 });
 
 overlay.style.display = 'none';
@@ -345,10 +618,10 @@ muteToggle.addEventListener('click', () => {
 
 if(audio.muted){
 audio.muted = false;
-muteToggle.textContent = '🔊 Mute';
+muteToggle.textContent = '◼ MUTE';
 } else {
 audio.muted = true;
-muteToggle.textContent = '🔇 Unmute';
+muteToggle.textContent = '▶ UNMUTE';
 }
 
 });
