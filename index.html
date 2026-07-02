@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FILE #VW-0050 — SABER / Soumyajit Dutta</title>
+<title>SABER // OPERATOR-0050</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
---bg:#0a0906;
---bg-panel:#131108;
---bg-panel-2:#1a1710;
---paper:#e9e2cd;
---paper-dim:#a89f87;
---amber:#ffb300;
---amber-dim:#8a5f00;
---red:#c1272d;
---line:#3a3324;
---mono-display:'JetBrains Mono',monospace;
---mono-body:'IBM Plex Mono',monospace;
+--void:#050810;
+--panel:#0a1120;
+--panel-2:#0e1a2e;
+--cyan:#38f2ff;
+--cyan-dim:#0f5b66;
+--violet:#8b6bff;
+--amber:#ffb23e;
+--text:#d7e6f2;
+--text-dim:#5f7488;
+--line:#183045;
+--font-display:'Orbitron',sans-serif;
+--font-mono:'Space Mono',monospace;
 }
 
 *{
@@ -36,112 +37,143 @@ scroll-behavior:smooth;
 }
 
 body{
-background:var(--bg);
-color:var(--paper);
-font-family:var(--mono-body);
+background:var(--void);
+color:var(--text);
+font-family:var(--font-mono);
 overflow-x:hidden;
 position:relative;
 }
 
-/* paper grain + scanline atmosphere */
+/* starfield + hex grid atmosphere */
 body::before{
 content:"";
 position:fixed;
 inset:0;
+z-index:0;
 pointer-events:none;
-z-index:2;
-background:repeating-linear-gradient(
-0deg,
-rgba(255,255,255,0.018) 0px,
-rgba(255,255,255,0.018) 1px,
-transparent 1px,
-transparent 3px
-);
-mix-blend-mode:overlay;
+background-image:
+radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),
+radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.35),transparent),
+radial-gradient(1px 1px at 40% 80%,rgba(255,255,255,.4),transparent),
+radial-gradient(1.5px 1.5px at 85% 15%,rgba(255,255,255,.5),transparent),
+radial-gradient(1px 1px at 55% 45%,rgba(255,255,255,.3),transparent),
+radial-gradient(circle at 50% 0%,rgba(56,242,255,.08),transparent 60%);
+background-size:auto;
 }
 
 body::after{
 content:"";
 position:fixed;
 inset:0;
-pointer-events:none;
 z-index:1;
-background:radial-gradient(ellipse at 50% 0%,rgba(255,179,0,.06),transparent 55%),
-radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.6),transparent 60%);
+pointer-events:none;
+background:repeating-linear-gradient(0deg,rgba(56,242,255,.025) 0px,rgba(56,242,255,.025) 1px,transparent 1px,transparent 3px);
+mix-blend-mode:screen;
 }
 
-/* ============ ENTRY / ACCESS SCREEN ============ */
+/* ============ BOOT / UPLINK ENTRY SCREEN ============ */
 
 #entry-overlay{
 position:fixed;
 inset:0;
-background:var(--bg);
+background:var(--void);
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 z-index:999;
 text-align:center;
-gap:18px;
+gap:22px;
 padding:20px;
 }
 
-#entry-overlay .stamp-ring{
-width:86px;
-height:86px;
-border:2px solid var(--amber);
+.radar{
+width:110px;
+height:110px;
 border-radius:50%;
+border:1px solid var(--cyan-dim);
+position:relative;
 display:flex;
 align-items:center;
 justify-content:center;
-font-family:var(--mono-display);
-font-size:11px;
-color:var(--amber);
-letter-spacing:1px;
-transform:rotate(-8deg);
-box-shadow:0 0 25px rgba(255,179,0,.25);
+}
+
+.radar::before{
+content:"";
+position:absolute;
+inset:18px;
+border-radius:50%;
+border:1px solid var(--cyan-dim);
+}
+
+.radar::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:50%;
+background:conic-gradient(from 0deg,rgba(56,242,255,.55),transparent 35%);
+animation:sweep 2.4s linear infinite;
+}
+
+.radar-core{
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--cyan);
+box-shadow:0 0 12px 3px var(--cyan);
+z-index:2;
+}
+
+@keyframes sweep{
+to{ transform:rotate(360deg); }
 }
 
 #entry-overlay h1{
-font-family:var(--mono-display);
-font-weight:800;
-font-size:clamp(28px,5vw,42px);
-letter-spacing:4px;
-color:var(--paper);
+font-family:var(--font-display);
+font-weight:900;
+font-size:clamp(26px,5vw,40px);
+letter-spacing:6px;
+color:var(--text);
+text-shadow:0 0 18px rgba(56,242,255,.4);
 }
 
 #entry-overlay .sub{
-font-size:12px;
+font-size:11px;
 letter-spacing:3px;
-color:var(--amber-dim);
+color:var(--violet);
 text-transform:uppercase;
 }
 
 #entry-log{
 font-size:12px;
-color:var(--paper-dim);
+color:var(--text-dim);
 min-height:18px;
 letter-spacing:1px;
 }
 
+#entry-log .ok{
+color:var(--cyan);
+}
+
 #enter-btn{
-margin-top:10px;
-padding:16px 36px;
+margin-top:6px;
+padding:16px 38px;
 background:transparent;
-border:1px solid var(--amber);
-color:var(--amber);
-font-family:var(--mono-display);
+border:1px solid var(--cyan);
+color:var(--cyan);
+font-family:var(--font-display);
 font-weight:700;
 letter-spacing:3px;
-font-size:14px;
+font-size:13px;
 cursor:pointer;
 transition:.25s;
+clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
 }
 
 #enter-btn:hover{
-background:var(--amber);
-color:#0a0906;
-box-shadow:0 0 30px rgba(255,179,0,.35);
+background:var(--cyan);
+color:var(--void);
+box-shadow:0 0 30px rgba(56,242,255,.45);
 }
 
 #mute-toggle{
@@ -149,162 +181,186 @@ position:fixed;
 top:18px;
 right:18px;
 z-index:998;
-background:var(--bg-panel);
+background:var(--panel);
 border:1px solid var(--line);
-color:var(--amber);
+color:var(--cyan);
 padding:9px 14px;
-border-radius:2px;
 cursor:pointer;
-font-family:var(--mono-display);
-font-size:11px;
-letter-spacing:1px;
+font-family:var(--font-display);
+font-size:10px;
+letter-spacing:2px;
 display:none;
 }
 
 #mute-toggle:hover{
-border-color:var(--amber);
+border-color:var(--cyan);
 }
 
 /* ============ LAYOUT ============ */
 
 .container{
-max-width:900px;
+max-width:920px;
 margin:auto;
-padding:56px 28px 40px;
+padding:60px 26px 40px;
 position:relative;
 z-index:3;
 }
 
-/* classified stamp watermark */
-.watermark{
-position:absolute;
-top:40px;
-right:0px;
-font-family:var(--mono-display);
-font-weight:800;
-font-size:13px;
-letter-spacing:4px;
-color:var(--red);
-border:2px solid var(--red);
-padding:6px 12px;
-transform:rotate(8deg);
-opacity:.75;
-white-space:nowrap;
-}
-
-.case-meta{
+.eyebrow{
 display:flex;
 flex-wrap:wrap;
-gap:6px 24px;
+gap:8px 22px;
 font-size:11px;
-letter-spacing:1.5px;
-color:var(--paper-dim);
+letter-spacing:2px;
+color:var(--text-dim);
 text-transform:uppercase;
-margin-bottom:22px;
+margin-bottom:24px;
+font-family:var(--font-mono);
 }
 
-.case-meta span b{
-color:var(--amber);
-font-weight:600;
+.eyebrow span b{
+color:var(--cyan);
+font-weight:700;
 }
 
 h1.name{
-font-family:var(--mono-display);
-font-weight:800;
-font-size:clamp(36px,7vw,58px);
-letter-spacing:2px;
-line-height:1.05;
-color:var(--paper);
+font-family:var(--font-display);
+font-weight:900;
+font-size:clamp(34px,7vw,56px);
+letter-spacing:3px;
+line-height:1.1;
+color:var(--text);
+text-shadow:0 0 24px rgba(56,242,255,.25);
 }
 
 h1.name .alias{
-color:var(--amber);
+color:var(--cyan);
 }
 
 .typing{
-font-family:var(--mono-body);
-font-size:16px;
-margin-top:14px;
+font-family:var(--font-mono);
+font-size:15px;
+margin-top:16px;
 white-space:nowrap;
 overflow:hidden;
-border-right:2px solid var(--amber);
-width:44ch;
+border-right:2px solid var(--cyan);
+width:46ch;
 max-width:100%;
-color:var(--paper-dim);
+color:var(--text-dim);
 letter-spacing:1px;
-animation:typing 3.2s steps(44),blink .7s infinite step-end;
+animation:typing 3.2s steps(46),blink .7s infinite step-end;
 }
 
 @keyframes typing{ from{width:0;} }
 @keyframes blink{ 50%{border-color:transparent;} }
 
-hr.tear{
-border:none;
-border-top:1px dashed var(--line);
-margin:34px 0;
-}
+/* ============ HUD PANELS ============ */
 
-/* ============ FILE SECTIONS ============ */
-
-.file{
-margin-top:26px;
-background:var(--bg-panel);
+.panel{
+margin-top:24px;
+background:linear-gradient(180deg,var(--panel),var(--panel-2));
 border:1px solid var(--line);
 position:relative;
+padding:28px 26px 26px;
 }
 
-.file-tab{
+.panel::before,.panel::after,
+.panel .c1,.panel .c2{
+content:"";
 position:absolute;
-top:-13px;
-left:22px;
-background:var(--bg);
-border:1px solid var(--line);
-border-bottom:none;
-padding:4px 12px;
-font-family:var(--mono-display);
-font-size:11px;
+width:14px;
+height:14px;
+border:2px solid var(--cyan);
+opacity:.8;
+}
+
+.panel::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+.panel::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+.panel .c1{ top:-1px; right:-1px; border-left:none; border-bottom:none; }
+.panel .c2{ bottom:-1px; left:-1px; border-right:none; border-top:none; }
+
+.panel-id{
+position:absolute;
+top:-11px;
+left:20px;
+background:var(--void);
+padding:2px 10px;
+font-family:var(--font-display);
+font-size:10px;
 letter-spacing:2px;
-color:var(--amber-dim);
+color:var(--violet);
 }
 
-.file-body{
-padding:30px 26px 26px;
-}
-
-.file h2{
-font-family:var(--mono-display);
+.panel h2{
+font-family:var(--font-display);
 font-weight:700;
-font-size:19px;
-letter-spacing:1.5px;
-color:var(--amber);
+font-size:17px;
+letter-spacing:2px;
+color:var(--cyan);
 margin-bottom:16px;
 text-transform:uppercase;
 }
 
-.file p{
-line-height:1.85;
-color:var(--paper);
+.panel p{
+line-height:1.9;
+color:var(--text);
 font-size:14.5px;
 }
 
-/* redacted reveal-on-hover */
-.redact{
-background:var(--paper);
-color:transparent;
-padding:0 6px;
-border-radius:2px;
-cursor:help;
-transition:.2s;
-user-select:none;
+.hl{
+color:var(--cyan);
+font-weight:700;
 }
 
-.redact:hover{
-background:transparent;
+.hl-v{
+color:var(--violet);
+font-weight:700;
+}
+
+/* mission counter */
+.counter-row{
+display:grid;
+grid-template-columns:auto 1fr;
+gap:26px;
+align-items:center;
+margin-bottom:22px;
+}
+
+.counter-num{
+font-family:var(--font-display);
+font-weight:900;
+font-size:60px;
+color:var(--cyan);
+line-height:1;
+text-shadow:0 0 20px rgba(56,242,255,.4);
+}
+
+.counter-label{
+font-size:11px;
+letter-spacing:2px;
+color:var(--text-dim);
+text-transform:uppercase;
+line-height:1.6;
+}
+
+.tags{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.tags span{
+font-family:var(--font-mono);
+font-size:11px;
+letter-spacing:1px;
 color:var(--amber);
-outline:1px solid var(--amber-dim);
+border:1px solid var(--amber);
+padding:5px 10px;
+text-transform:uppercase;
+opacity:.9;
 }
 
-/* achievements as file entries */
+/* achievements as data rows */
 .entries{
 list-style:none;
 display:flex;
@@ -314,7 +370,7 @@ gap:14px;
 
 .entries li{
 display:grid;
-grid-template-columns:64px 1fr;
+grid-template-columns:74px 1fr;
 gap:16px;
 align-items:baseline;
 border-bottom:1px solid var(--line);
@@ -328,59 +384,17 @@ padding-bottom:0;
 }
 
 .entries li .tag{
-font-family:var(--mono-display);
-font-size:11px;
-color:var(--amber-dim);
+font-family:var(--font-display);
+font-size:10px;
+color:var(--violet);
 letter-spacing:1px;
 }
 
-.entries li b{
-color:var(--amber);
+.entries li a{
+color:var(--cyan);
 }
 
-/* case counter block */
-.counter-row{
-display:grid;
-grid-template-columns:auto 1fr;
-gap:24px;
-align-items:center;
-margin-bottom:22px;
-}
-
-.counter-num{
-font-family:var(--mono-display);
-font-weight:800;
-font-size:64px;
-color:var(--amber);
-line-height:1;
-}
-
-.counter-label{
-font-size:11px;
-letter-spacing:2px;
-color:var(--paper-dim);
-text-transform:uppercase;
-line-height:1.6;
-}
-
-.case-tags{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-}
-
-.case-tags span{
-font-family:var(--mono-display);
-font-size:11px;
-letter-spacing:1px;
-color:var(--red);
-border:1px solid var(--red);
-padding:5px 10px;
-text-transform:uppercase;
-opacity:.85;
-}
-
-/* contact grid */
+/* comm channels grid */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
@@ -389,28 +403,29 @@ gap:14px;
 
 .linkbox{
 padding:16px 18px;
-background:var(--bg-panel-2);
+background:rgba(56,242,255,.03);
 border:1px solid var(--line);
 transition:.25s;
 }
 
 .linkbox:hover{
-border-color:var(--amber);
+border-color:var(--cyan);
+background:rgba(56,242,255,.06);
 transform:translateX(3px);
 }
 
 .linkbox .k{
-font-family:var(--mono-display);
+font-family:var(--font-display);
 font-size:10px;
 letter-spacing:2px;
-color:var(--paper-dim);
+color:var(--text-dim);
 text-transform:uppercase;
 display:block;
 margin-bottom:6px;
 }
 
 .linkbox a{
-color:var(--amber);
+color:var(--cyan);
 text-decoration:none;
 font-size:14px;
 }
@@ -422,26 +437,25 @@ text-decoration:underline;
 footer{
 text-align:center;
 margin:60px 0 30px;
-font-family:var(--mono-display);
+font-family:var(--font-display);
 font-size:11px;
 letter-spacing:3px;
-color:var(--paper-dim);
+color:var(--text-dim);
 text-transform:uppercase;
 }
 
 footer .end-stamp{
 display:inline-block;
-margin-top:10px;
-border:1px solid var(--red);
-color:var(--red);
-padding:5px 14px;
-transform:rotate(-3deg);
+margin-top:12px;
+border:1px solid var(--cyan);
+color:var(--cyan);
+padding:6px 16px;
 }
 
 @media (max-width:640px){
-.watermark{ font-size:10px; padding:4px 8px; top:16px;}
-.counter-num{ font-size:46px; }
-.entries li{ grid-template-columns:52px 1fr; }
+.counter-num{ font-size:44px; }
+.entries li{ grid-template-columns:58px 1fr; }
+.typing{ width:32ch; font-size:13px; }
 }
 
 </style>
@@ -449,13 +463,13 @@ transform:rotate(-3deg);
 </head>
 <body>
 
-<!-- ============ ENTRY / TERMINAL ACCESS SCREEN ============ -->
+<!-- ============ NEURAL UPLINK ENTRY SCREEN ============ -->
 <div id="entry-overlay">
-<div class="stamp-ring">VOID<br>WLKRS</div>
-<h1>FILE #VW-0050</h1>
-<div class="sub">Clearance required to view record</div>
+<div class="radar"><div class="radar-core"></div></div>
+<h1>OPERATOR // SABER</h1>
+<div class="sub">Neural uplink required</div>
 <div id="entry-log">standing by...</div>
-<button id="enter-btn">▸ AUTHENTICATE &amp; OPEN FILE</button>
+<button id="enter-btn">▸ ESTABLISH UPLINK</button>
 </div>
 
 <!-- Background audio — drop your file next to this HTML as audio.mp3 -->
@@ -464,12 +478,10 @@ transform:rotate(-3deg);
 
 <div class="container">
 
-<div class="watermark">CLASSIFIED</div>
-
-<div class="case-meta">
-<span>CASE&nbsp;NO. <b>VW-0050</b></span>
-<span>STATUS <b>ACTIVE</b></span>
-<span>REGION <b>IN&nbsp;/&nbsp;INTL</b></span>
+<div class="eyebrow">
+<span>OPERATOR&nbsp;ID <b>0050</b></span>
+<span>STATUS <b>ONLINE</b></span>
+<span>SECTOR <b>IN&nbsp;/&nbsp;INTL</b></span>
 <span>CLEARANCE <b>DIRECTOR</b></span>
 </div>
 
@@ -477,40 +489,34 @@ transform:rotate(-3deg);
 
 <div class="typing">Ethical Hacker · CTF Player · Cyber Crime Investigator_</div>
 
-<hr class="tear">
-
-<div class="file">
-<div class="file-tab">FILE-01 · SUBJECT PROFILE</div>
-<div class="file-body">
+<div class="panel">
+<span class="c1"></span><span class="c2"></span>
+<div class="panel-id">MODULE 01 // OPERATOR PROFILE</div>
 <h2>About Me</h2>
 <p>
-I'm <b style="color:var(--amber)">Soumyajit "Saber" Dutta</b> — an
-<span class="redact" title="Ethical Hacker">Ethical Hacker</span>
-working across <span class="redact" title="IoT Security">IoT Security</span>,
-<span class="redact" title="Cryptography">Cryptography</span>, and currently
-deep in <b>OSINT</b> (Open Source Intelligence) research.
+I'm <span class="hl">Soumyajit Dutta</span>, also known as <span class="hl">Saber</span> — an ethical hacker
+running recon across <span class="hl-v">IoT Security</span> and
+<span class="hl-v">Cryptography</span>, currently deep in
+<span class="hl-v">OSINT</span> (Open Source Intelligence) research.
 <br><br>
-Outside of CTFs, I operate as a
-<b style="color:var(--amber)">Private Cyber Crime Investigator</b>,
-having worked <b>20+ cases</b> across national and international jurisdictions —
-covering cyberbullying, murder, suicide, and more.
+Off the grid, I operate as a <span class="hl">Private Cyber Crime Investigator</span>,
+having closed <span class="hl">20+ cases</span> across national and international
+jurisdictions — covering cyberbullying, murder, suicide, and more.
 <br><br>
-I like breaking things to understand them, chasing digital footprints
-that others miss, and building tools that make the internet a little
-harder to abuse.
+I like reverse-engineering systems, tracing digital footprints others
+miss, and building tools that make the network harder to abuse.
 </p>
 </div>
-</div>
 
-<div class="file">
-<div class="file-tab">FILE-02 · CASE LOG</div>
-<div class="file-body">
+<div class="panel">
+<span class="c1"></span><span class="c2"></span>
+<div class="panel-id">MODULE 02 // MISSION LOG</div>
 <h2>Investigations</h2>
 <div class="counter-row">
 <div class="counter-num">20+</div>
-<div class="counter-label">Cases handled<br>National &amp; International</div>
+<div class="counter-label">Cases resolved<br>National &amp; International</div>
 </div>
-<div class="case-tags">
+<div class="tags">
 <span>Cyberbullying</span>
 <span>Murder</span>
 <span>Suicide</span>
@@ -518,25 +524,23 @@ harder to abuse.
 <span>OSINT Tracing</span>
 </div>
 </div>
-</div>
 
-<div class="file">
-<div class="file-tab">FILE-03 · OPERATIONAL RECORD</div>
-<div class="file-body">
+<div class="panel">
+<span class="c1"></span><span class="c2"></span>
+<div class="panel-id">MODULE 03 // COMMENDATIONS</div>
 <h2>Achievements</h2>
 <ul class="entries">
 <li><span class="tag">ROLE</span><span>Professional CTF Player</span></li>
-<li><span class="tag">TEAM</span><span>Member of <b>VOID_Walkers</b></span></li>
-<li><span class="tag">RANK</span><span>🌍 World Rank <b>#50</b></span></li>
-<li><span class="tag">RANK</span><span>🇮🇳 India Rank <b>#3</b></span></li>
-<li><span class="tag">LEAD</span><span>Director of <a href="https://www.voidwalkers.xyz" target="_blank" style="color:var(--amber)">VOID_Walkers</a></span></li>
+<li><span class="tag">SQUAD</span><span>Member of <span class="hl">VOID_Walkers</span></span></li>
+<li><span class="tag">RANK</span><span>🌍 World Rank <span class="hl">#50</span></span></li>
+<li><span class="tag">RANK</span><span>🇮🇳 India Rank <span class="hl">#3</span></span></li>
+<li><span class="tag">LEAD</span><span>Director of <a href="https://www.voidwalkers.xyz" target="_blank">VOID_Walkers</a></span></li>
 </ul>
 </div>
-</div>
 
-<div class="file">
-<div class="file-tab">FILE-04 · CONTACT PROTOCOL</div>
-<div class="file-body">
+<div class="panel">
+<span class="c1"></span><span class="c2"></span>
+<div class="panel-id">MODULE 04 // COMM CHANNELS</div>
 <h2>Reach Me</h2>
 <div class="grid">
 
@@ -577,12 +581,11 @@ harder to abuse.
 
 </div>
 </div>
-</div>
 
 <footer>
-End of file — thanks for reading
+Transmission ends
 <br>
-<span class="end-stamp">CASE CLOSED</span>
+<span class="end-stamp">UPLINK CLOSED</span>
 </footer>
 
 </div>
@@ -595,10 +598,10 @@ const audio = document.getElementById('bg-audio');
 const muteToggle = document.getElementById('mute-toggle');
 const log = document.getElementById('entry-log');
 
-const lines = ['verifying clearance...','decrypting file...','access granted.'];
+const lines = ['scanning frequencies...','decrypting handshake...','<span class="ok">uplink established.</span>'];
 let i = 0;
 setInterval(() => {
-log.textContent = lines[i % lines.length];
+log.innerHTML = lines[i % lines.length];
 i++;
 }, 1100);
 
